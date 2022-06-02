@@ -6,8 +6,6 @@ export const getPosts = async (req, res) => {
     //finding something in a model takes time and, is thus, asynchronous. Must convert this function to an async function and put await on the find method
     const postMessages = await PostMessage.find()
 
-    console.log(postMessages)
-
     res.status(200).json(postMessages)
   } catch (error) {
     res.status(404).json({ message: error.message })

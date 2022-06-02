@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import * as api from "../api"
 
 export const postsSlice = createSlice({
   name: "posts",
@@ -6,7 +7,7 @@ export const postsSlice = createSlice({
     posts: [],
   },
   reducers: {
-    fetchAllPosts: (state, action) => {
+    getPosts: (state, action) => {
       state.posts = action.payload
     },
     createPosts: (state, action) => {
@@ -15,6 +16,20 @@ export const postsSlice = createSlice({
   },
 })
 
-export const { fetchAllPosts, createPosts } = postsSlice.actions
+//imported the api call to our backend server from ../api
+//then we created a async thunk function that makes a call to the api that we created with axios
+//we return the data to the component that requests that data
+export const fetchPosts = createAsyncThunk("", async () => {
+  try {
+    const response = await api.fetchPosts()
+    return response.data
+  } catch (error) {
+    console.log(error.message)
+  }
+})
+
+export const { getPosts, createPosts } = postsSlice.actions
+
+export const selectAllPosts = (state) => state.posts.posts
 
 export default postsSlice.reducer

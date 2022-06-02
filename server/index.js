@@ -4,18 +4,18 @@ import bodyParser from "body-parser"
 import mongoose from "mongoose"
 import cors from "cors"
 
-//routes for when user visit the page
+//routes for when user visit the url
 import postRoutes from "./routes/posts.js"
 
 const app = express()
-
-//every route inside of the postRoutes will start with '/posts'
-app.use("/posts", postRoutes)
 
 //setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }))
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 app.use(cors())
+
+//every route inside of the postRoutes will start with '/posts'
+app.use("/posts", postRoutes)
 
 //mongoDB Atlas
 const CONNECTION_URL =
