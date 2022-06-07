@@ -1,5 +1,10 @@
 import express from "express"
-import { fetchPost, createPost, updatePost } from "../controllers/posts.js"
+import {
+  fetchPost,
+  createPost,
+  updatePost,
+  deletePost,
+} from "../controllers/posts.js"
 
 const router = express.Router()
 
@@ -11,5 +16,8 @@ router.post("/", createPost)
 
 //patch is used for updating existing documents
 router.patch("/:id", updatePost)
+
+//delete document
+router.delete("/:id", deletePost)
 
 export default router

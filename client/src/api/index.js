@@ -14,3 +14,8 @@ export const createPost = (newPost) => axios.post(url, newPost)
 export const updatePost = (id, updatedPost) => {
   return axios.patch(`${url}/${id}`, updatedPost)
 }
+
+//delete the post that matches the id
+export const deletePost = (id) => {
+  return axios.delete(`${url}/${id}`)
+}

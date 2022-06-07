@@ -36,6 +36,15 @@ export const updatePost = createAsyncThunk("posts/updatePost", async (data) => {
   }
 })
 
+export const deletePost = createAsyncThunk("posts/deletePost", async (id) => {
+  try {
+    await api.deletePost(id)
+    return id
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 export const postsSlice = createSlice({
   name: "posts",
   initialState: {
@@ -53,6 +62,7 @@ export const postsSlice = createSlice({
     [createPost.rejected]: (state, action) => {
       state.status = "failed"
     },
+
     //fetchPost
     [fetchPost.pending]: (state, action) => {
       state.status = "loading"
@@ -64,6 +74,7 @@ export const postsSlice = createSlice({
     [fetchPost.rejected]: (state, action) => {
       state.status = "failed"
     },
+
     //updatePost
     [updatePost.pending]: (state, action) => {
       state.status = "loading"
@@ -75,6 +86,18 @@ export const postsSlice = createSlice({
       )
     },
     [updatePost.rejected]: (state, action) => {
+      state.status = "failed"
+    },
+
+    //deletePost
+    [deletePost.pending]: (state, action) => {
+      state.status = "loading"
+    },
+    [deletePost.fulfilled]: (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.filter((post) => post._id !== action.payload)
+    },
+    [deletePost.rejected]: (state, action) => {
       state.status = "failed"
     },
   },
