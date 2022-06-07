@@ -1,8 +1,8 @@
 import React from "react"
 import useStyles from "./styles.js"
 import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core"
-import { useDispatch, useSelector } from "react-redux"
-import { getPosts, fetchPosts } from "../slices/postsSlice"
+import { useDispatch } from "react-redux"
+import { fetchPost } from "../slices/postsSlice"
 import Posts from "../components/posts/Posts.js"
 import Form from "../components/form/Form.js"
 import memories from "../images/memories.png"
@@ -12,9 +12,10 @@ const App = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(fetchPosts)
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchPost)
+  // }, [])
+
   return (
     <Container maxWidth="lg">
       <AppBar className={classes.appBar} position="static" color="inherit">
