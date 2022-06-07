@@ -1,11 +1,14 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { TextField, Button, Typography, Paper } from "@material-ui/core"
 import useStyles from "./styles.js"
 import FileBase from "react-file-base64"
-import { useDispatch } from "react-redux"
-import { createPost } from "../../slices/postsSlice.js"
+import { useDispatch, useSelector } from "react-redux"
+import { selectAllPosts } from "../../slices/postsSlice.js"
+import { createPost, updatePost } from "../../slices/postsSlice.js"
 
-const Form = () => {
+//get current ID
+
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -14,13 +17,25 @@ const Form = () => {
     selectedFile: "",
   })
   const classes = useStyles()
-
   const dispatch = useDispatch()
+
+  //if currentId exists, then find the post of the currentId and set it to post
+  const post = useSelector((state) =>
+    currentId ? state.posts.posts.find((post) => post._id === currentId) : null
+  )
+
+  useEffect(() => {
+    if (post) setPostData(post)
+  }, [post])
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    dispatch(createPost(postData))
+    if (currentId) {
+      dispatch(updatePost(currentId, postData))
+    } else {
+      dispatch(createPost(postData))
+    }
   }
 
   const clear = () => {}

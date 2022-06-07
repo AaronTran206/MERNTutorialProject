@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectAllPosts } from "../../slices/postsSlice.js"
 import { Grid, CircularProgress } from "@material-ui/core"
 
-const Posts = () => {
+const Posts = ({ setCurrentId }) => {
   const classes = useStyles()
-  const dispatch = useDispatch()
   const posts = useSelector(selectAllPosts)
 
   console.log(posts)
@@ -21,8 +20,8 @@ const Posts = () => {
       spacing={3}
     >
       {posts.map((post) => (
-        <Grid item key={post.id} xs={12} sm={6}>
-          <Post post={post} />
+        <Grid key={post._id} item xs={12} sm={6}>
+          <Post post={post} setCurrentId={setCurrentId} />
         </Grid>
       ))}
     </Grid>

@@ -1,7 +1,8 @@
 //Separate post functions and route file for greater scalability. Once the file size gets bigger, it will be easier to see the different functions in here.
+import mongoose from "mongoose"
 import PostMessage from "../models/postMessage.js"
 
-export const getPosts = async (req, res) => {
+export const fetchPost = async (req, res) => {
   try {
     //finding something in a model takes time and, is thus, asynchronous. Must convert this function to an async function and put await on the find method
     const postMessages = await PostMessage.find()
@@ -23,4 +24,18 @@ export const createPost = async (req, res) => {
   } catch (error) {
     res.status(409).json({ message: error.message })
   }
+}
+
+export const updatePost = async (req, res) => {
+  const { id: _id } = req.params
+  const post = req.body
+
+  if (!mongoose.Types.ObjectId.isValid(_id))
+    return res.status(404).send("No post with that id")
+
+  const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
+    new: true,
+  })
+
+  res.json(updatedPost)
 }

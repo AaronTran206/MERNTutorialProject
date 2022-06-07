@@ -1,9 +1,15 @@
 import express from "express"
-import { getPosts, createPost } from "../controllers/posts.js"
+import { fetchPost, createPost, updatePost } from "../controllers/posts.js"
 
 const router = express.Router()
 
-router.get("/", getPosts)
+//get retrieves data from a database
+router.get("/", fetchPost)
+
+//post adds data to a database
 router.post("/", createPost)
+
+//patch is used for updating existing documents
+router.patch("/:id", updatePost)
 
 export default router
