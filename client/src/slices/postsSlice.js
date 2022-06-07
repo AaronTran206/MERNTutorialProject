@@ -10,7 +10,7 @@ export const fetchPost = createAsyncThunk("posts/fetchPost", async () => {
 
     return response.data
   } catch (error) {
-    console.log(error.message)
+    console.log(error)
   }
 })
 
@@ -21,7 +21,7 @@ export const createPost = createAsyncThunk("posts/createPost", async (post) => {
 
     return response.data
   } catch (error) {
-    console.log(error.message)
+    console.log(error)
   }
 })
 
@@ -32,7 +32,7 @@ export const updatePost = createAsyncThunk("posts/updatePost", async (data) => {
 
     return response.data
   } catch (error) {
-    console.log(error.message)
+    console.log(error)
   }
 })
 

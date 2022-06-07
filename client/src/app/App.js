@@ -6,6 +6,7 @@ import { fetchPost } from "../slices/postsSlice"
 import Posts from "../components/posts/Posts.js"
 import Form from "../components/form/Form.js"
 import memories from "../images/memories.png"
+import { current } from "@reduxjs/toolkit"
 
 const App = () => {
   const [currentId, setCurrentId] = useState(null)
@@ -14,7 +15,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchPost())
-  }, [])
+  }, [dispatch, currentId])
 
   return (
     <Container maxWidth="lg">
