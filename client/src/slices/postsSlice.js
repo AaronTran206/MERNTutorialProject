@@ -8,9 +8,7 @@ export const fetchPost = createAsyncThunk("posts/fetchPost", async () => {
   try {
     const response = await api.fetchPost()
 
-    const data = response.json()
-
-    return data
+    return response.data
   } catch (error) {
     console.log(error.message)
   }

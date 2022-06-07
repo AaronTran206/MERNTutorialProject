@@ -12,9 +12,9 @@ const App = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   dispatch(fetchPost)
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchPost())
+  }, [])
 
   return (
     <Container maxWidth="lg">
