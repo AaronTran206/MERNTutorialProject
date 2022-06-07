@@ -32,7 +32,7 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault()
 
     if (currentId) {
-      dispatch(updatePost(currentId, postData))
+      dispatch(updatePost({ id: currentId, post: postData }))
     } else {
       dispatch(createPost(postData))
     }

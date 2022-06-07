@@ -7,7 +7,6 @@ import * as api from "../api"
 export const fetchPost = createAsyncThunk("posts/fetchPost", async () => {
   try {
     const response = await api.fetchPost()
-    console.log(response)
 
     return response.data
   } catch (error) {
@@ -26,18 +25,16 @@ export const createPost = createAsyncThunk("posts/createPost", async (post) => {
   }
 })
 
-export const updatePost = createAsyncThunk(
-  "posts/updatePost",
-  async (id, post) => {
-    try {
-      const response = await api.updatePost(id, post)
-      console.log(response.data)
-      return response.data
-    } catch (error) {
-      console.log(error.message)
-    }
+export const updatePost = createAsyncThunk("posts/updatePost", async (data) => {
+  try {
+    const { id, post } = data
+    const response = await api.updatePost(id, post)
+
+    return response.data
+  } catch (error) {
+    console.log(error.message)
   }
-)
+})
 
 export const postsSlice = createSlice({
   name: "posts",

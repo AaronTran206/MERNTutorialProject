@@ -10,5 +10,7 @@ export const fetchPost = () => axios.get(url)
 //the backend database is also connecting data to the url
 export const createPost = (newPost) => axios.post(url, newPost)
 
-export const updatePost = (id, updatedPost) =>
-  axios.patch(`${url}/${id}`, updatedPost)
+//find the document that matches the id and patch it
+export const updatePost = (id, updatedPost) => {
+  return axios.patch(`${url}/${id}`, updatedPost)
+}
