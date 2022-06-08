@@ -20,8 +20,6 @@ app.use(cors())
 app.use("/posts", postRoutes)
 
 //mongoDB Atlas
-// const CONNECTION_URL =
-//   "mongodb+srv://aarontran206:eMtEnGsDSHSnX6YZ@cluster0.yzrot.mongodb.net/?retryWrites=true&w=majority"
 const PORT = process.env.PORT || 5000
 
 //mongoose setup
