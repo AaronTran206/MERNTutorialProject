@@ -6,9 +6,9 @@ import * as api from "../api"
 //we return the data to the component that requests that data
 export const fetchPost = createAsyncThunk("posts/fetchPost", async () => {
   try {
-    const response = await api.fetchPost()
+    const { data } = await api.fetchPost()
 
-    return response.data
+    return data
   } catch (error) {
     console.log(error)
   }
@@ -17,20 +17,33 @@ export const fetchPost = createAsyncThunk("posts/fetchPost", async () => {
 //
 export const createPost = createAsyncThunk("posts/createPost", async (post) => {
   try {
-    const response = await api.createPost(post)
+    const { data } = await api.createPost(post)
 
-    return response.data
+    return data
   } catch (error) {
     console.log(error)
   }
 })
 
-export const updatePost = createAsyncThunk("posts/updatePost", async (data) => {
-  try {
-    const { id, post } = data
-    const response = await api.updatePost(id, post)
+export const updatePost = createAsyncThunk(
+  "posts/updatePost",
+  async (newPost) => {
+    try {
+      const { id, post } = newPost
+      const { data } = await api.updatePost(id, post)
 
-    return response.data
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const likePost = createAsyncThunk("posts/likePost", async (id) => {
+  try {
+    const { data } = await api.likePost(id)
+
+    return data
   } catch (error) {
     console.log(error)
   }
@@ -76,6 +89,20 @@ export const postsSlice = createSlice({
     },
 
     //updatePost
+    [updatePost.pending]: (state, action) => {
+      state.status = "loading"
+    },
+    [updatePost.fulfilled]: (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.map((post) =>
+        post.id === action.payload._id ? action.payload : post
+      )
+    },
+    [updatePost.rejected]: (state, action) => {
+      state.status = "failed"
+    },
+
+    //likePost
     [updatePost.pending]: (state, action) => {
       state.status = "loading"
     },

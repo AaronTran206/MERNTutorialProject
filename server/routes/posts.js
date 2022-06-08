@@ -4,6 +4,7 @@ import {
   createPost,
   updatePost,
   deletePost,
+  likePost,
 } from "../controllers/posts.js"
 
 const router = express.Router()
@@ -16,6 +17,9 @@ router.post("/", createPost)
 
 //patch is used for updating existing documents
 router.patch("/:id", updatePost)
+
+//patch to update likes
+router.patch("/:id/likePost", likePost)
 
 //delete document
 router.delete("/:id", deletePost)

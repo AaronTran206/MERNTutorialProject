@@ -1,7 +1,7 @@
 import React from "react"
 import Post from "./post/Post.js"
 import useStyles from "./styles.js"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { selectAllPosts } from "../../slices/postsSlice.js"
 import { Grid, CircularProgress } from "@material-ui/core"
 

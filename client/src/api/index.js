@@ -15,6 +15,10 @@ export const updatePost = (id, updatedPost) => {
   return axios.patch(`${url}/${id}`, updatedPost)
 }
 
+export const likePost = (id) => {
+  return axios.patch(`${url}/${id}/likePost`)
+}
+
 //delete the post that matches the id
 export const deletePost = (id) => {
   return axios.delete(`${url}/${id}`)
