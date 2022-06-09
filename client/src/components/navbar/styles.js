@@ -45,6 +45,8 @@ export default makeStyles((theme) => ({
   },
   logout: {
     marginLeft: "20px",
+    alignItems: "center",
+    justifyContent: "center",
   },
   userName: {
     display: "flex",

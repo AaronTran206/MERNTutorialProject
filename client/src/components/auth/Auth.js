@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import useStyles from "./styles.js"
 import {
   Avatar,
   Button,
@@ -8,17 +7,46 @@ import {
   Typography,
   Container,
 } from "@material-ui/core"
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
+import { decodeToken } from "react-jwt"
+import { useDispatch } from "react-redux"
+import { setAuthSlice } from "../../slices/authSlice.js"
+import { useNavigate } from "react-router-dom"
+
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Input from "./input.js"
+import useStyles from "./styles.js"
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false)
-  const classes = useStyles()
+  const [isSignup, setIsSignUp] = useState(false)
 
-  const isSignup = false
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const handleSubmit = () => {}
   const handleChange = () => {}
   const handleShowPassword = () => setShowPassword(!showPassword)
+  const switchMode = () => {
+    setIsSignUp(!isSignup)
+    setShowPassword(false)
+  }
+
+  const googleSuccess = async (res) => {
+    //decode the response from Google authentication
+    const decodedToken = await decodeToken(res.credential)
+
+    //dispatch decoded results to redux global state
+    dispatch(setAuthSlice(decodedToken))
+
+    //return back to home after sign-in
+    navigate("/")
+  }
+
+  const googleError = (error) => {
+    console.log(error)
+  }
 
   return (
     <Container component={"main"} maxWidth="xs">
@@ -42,7 +70,6 @@ const Auth = () => {
                   name="lastName"
                   label="Last Name"
                   handleChange={handleChange}
-                  autoFocus
                   half
                 />
               </>
@@ -52,6 +79,7 @@ const Auth = () => {
               label="Email Address"
               handleChange={handleChange}
               type="email"
+              autoFocus
             />
             <Input
               name="password"
@@ -78,10 +106,23 @@ const Auth = () => {
           >
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
+          <GoogleLogin
+            onSuccess={googleSuccess}
+            onError={googleError}
+            theme="filled_blue"
+          />
+          <Grid container justifyContent="flex-start">
+            <Grid item>
+              <Button onClick={switchMode}>
+                {isSignup
+                  ? "Already have an account? Sign In"
+                  : "Don't have an account? Sign Up"}
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </Paper>
     </Container>
   )
 }
-
 export default Auth
