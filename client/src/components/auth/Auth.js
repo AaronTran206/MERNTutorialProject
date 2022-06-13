@@ -17,16 +17,34 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Input from "./input.js"
 import useStyles from "./styles.js"
 
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+}
+
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [isSignup, setIsSignUp] = useState(false)
+  const [formData, setFormData] = useState(initialState)
 
   const classes = useStyles()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const handleSubmit = () => {}
-  const handleChange = () => {}
+  //when submitted, send form data to backend to login
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    console.log(formData)
+  }
+
+  //change formdata on input field change
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
   const handleShowPassword = () => setShowPassword(!showPassword)
   const switchMode = () => {
     setIsSignUp(!isSignup)
