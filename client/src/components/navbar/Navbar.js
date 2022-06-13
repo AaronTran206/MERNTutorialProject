@@ -5,17 +5,18 @@ import memories from "../../images/memories.png"
 import useStyles from "./styles.js"
 import { selectAuthData, setAuthLogoutSlice } from "../../slices/authSlice"
 import { useSelector, useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")))
   const classes = useStyles()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
-    // const token = user?.
-  }, [])
+    setUser(JSON.parse(localStorage.getItem("profile")))
+  }, [location])
 
   const logout = () => {
     dispatch(setAuthLogoutSlice(null))
