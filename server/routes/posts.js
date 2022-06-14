@@ -6,6 +6,7 @@ import {
   deletePost,
   likePost,
 } from "../controllers/posts.js"
+import auth from "../middleware/auth.js"
 
 const router = express.Router()
 
@@ -13,15 +14,15 @@ const router = express.Router()
 router.get("/", fetchPost)
 
 //post adds data to a database
-router.post("/", createPost)
+router.post("/", auth, createPost)
 
 //patch is used for updating existing documents
-router.patch("/:id", updatePost)
+router.patch("/:id", auth, updatePost)
 
 //patch to update likes
-router.patch("/:id/likePost", likePost)
+router.patch("/:id/likePost", auth, likePost)
 
 //delete document
-router.delete("/:id", deletePost)
+router.delete("/:id", auth, deletePost)
 
 export default router
