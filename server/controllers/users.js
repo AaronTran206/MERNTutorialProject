@@ -4,10 +4,10 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 //import Schema from models
-import User from "../models/user"
+import User from "../models/user.js"
 
 export const signup = async (req, res) => {
-  const { email, password, confirmPassword, firstName, lastName } = req.body
+  const { email, password, confirmPassword, given_name, family_name } = req.body
 
   try {
     //if there is already an account with the email return an error message
@@ -26,7 +26,8 @@ export const signup = async (req, res) => {
     const result = await User.create({
       email,
       password: hashedPassword,
-      name: `${firstName}, ${lastName}`,
+      given_name: given_name,
+      family_name: family_name,
     })
 
     //json web token that expires in specified time

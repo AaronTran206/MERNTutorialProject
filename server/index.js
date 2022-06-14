@@ -19,6 +19,7 @@ app.use(cors())
 
 //every route inside of the postRoutes will start with '/posts'
 app.use("/posts", postRoutes)
+//every route inside of userRoutes will start with /user
 app.use("/user", userRoutes)
 
 //mongoDB Atlas

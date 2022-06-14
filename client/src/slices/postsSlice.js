@@ -16,9 +16,8 @@ export const fetchPost = createAsyncThunk("posts/fetchPost", async () => {
 
 //
 export const createPost = createAsyncThunk("posts/createPost", async (post) => {
+  const { data } = await api.createPost(post)
   try {
-    const { data } = await api.createPost(post)
-
     return data
   } catch (error) {
     console.log(error)
@@ -28,8 +27,8 @@ export const createPost = createAsyncThunk("posts/createPost", async (post) => {
 export const updatePost = createAsyncThunk(
   "posts/updatePost",
   async (newPost) => {
+    const { id, post } = newPost
     try {
-      const { id, post } = newPost
       const { data } = await api.updatePost(id, post)
 
       return data
@@ -40,9 +39,8 @@ export const updatePost = createAsyncThunk(
 )
 
 export const likePost = createAsyncThunk("posts/likePost", async (id) => {
+  const { data } = await api.likePost(id)
   try {
-    const { data } = await api.likePost(id)
-
     return data
   } catch (error) {
     console.log(error)

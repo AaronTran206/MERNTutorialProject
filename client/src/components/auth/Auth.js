@@ -18,8 +18,8 @@ import Input from "./input.js"
 import useStyles from "./styles.js"
 
 const initialState = {
-  firstName: "",
-  lastName: "",
+  given_name: "",
+  family_name: "",
   email: "",
   password: "",
   confirmPassword: "",
@@ -40,10 +40,14 @@ const Auth = () => {
 
     if (isSignup) {
       //sign up the user
-      dispatch(signup({ formData, navigate }))
+      dispatch(signup(formData)).then(() => {
+        navigate("/")
+      })
     } else {
       //sign in the user
-      dispatch(signin({ formData, navigate }))
+      dispatch(signin(formData)).then(() => {
+        navigate("/")
+      })
     }
   }
 
@@ -62,7 +66,7 @@ const Auth = () => {
     const decodedToken = await decodeToken(res.credential)
 
     //dispatch decoded results to redux global state
-    dispatch(setAuthSlice(decodedToken))
+    dispatch(setAuthSlice({ result: decodedToken }))
 
     //return back to home after sign-in
     navigate("/")
@@ -84,14 +88,14 @@ const Auth = () => {
             {isSignup && (
               <>
                 <Input
-                  name="firstName"
+                  name="given_name"
                   label="First Name"
                   handleChange={handleChange}
                   autoFocus
                   half
                 />
                 <Input
-                  name="lastName"
+                  name="family_name"
                   label="Last Name"
                   handleChange={handleChange}
                   half

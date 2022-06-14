@@ -1,24 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import * as api from "../api/index.js"
 
-export const signup = createAsyncThunk("", async (data) => {
-  const { formData, navigate } = data
+export const signup = createAsyncThunk("", async (d) => {
+  const formData = d
   try {
     //signup user
+    const { data } = await api.signUp(formData)
 
-    //navigate back to home page
-    navigate("/")
+    return data
   } catch (error) {
     console.log(error)
   }
 })
 
-export const signin = createAsyncThunk("", async (data) => {
-  const { formData, navigate } = data
+export const signin = createAsyncThunk("", async (d) => {
+  const formData = d
   try {
     //login user
+    const { data } = await api.signIn(formData)
 
-    //navigate back to home page
-    navigate("/")
+    return data
   } catch (error) {
     console.log(error)
   }
@@ -37,6 +38,33 @@ export const authSlice = createSlice({
     setAuthLogoutSlice: (state, action) => {
       localStorage.clear()
       state.authData = action.payload
+    },
+  },
+  extraReducers: {
+    //Sign Up
+    [signup.pending]: (state, action) => {
+      state.status = "loading"
+    },
+    [signup.fulfilled]: (state, action) => {
+      state.status = "success"
+      localStorage.setItem("profile", JSON.stringify({ ...action.payload }))
+      state.authData = action.payload
+    },
+    [signup.rejected]: (state, action) => {
+      state.status = "failed"
+    },
+
+    //Sign In
+    [signin.pending]: (state, action) => {
+      state.status = "loading"
+    },
+    [signin.fulfilled]: (state, action) => {
+      state.status = "success"
+      localStorage.setItem("profile", JSON.stringify({ ...action.payload }))
+      state.authData = action.payload
+    },
+    [signin.rejected]: (state, action) => {
+      state.status = "failed"
     },
   },
 })
