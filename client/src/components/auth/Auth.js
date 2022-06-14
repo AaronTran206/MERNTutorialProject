@@ -10,7 +10,7 @@ import {
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import { decodeToken } from "react-jwt"
 import { useDispatch } from "react-redux"
-import { setAuthSlice } from "../../slices/authSlice.js"
+import { setAuthSlice, signup, signin } from "../../slices/authSlice.js"
 import { useNavigate } from "react-router-dom"
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
@@ -38,7 +38,13 @@ const Auth = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    console.log(formData)
+    if (isSignup) {
+      //sign up the user
+      dispatch(signup({ formData, navigate }))
+    } else {
+      //sign in the user
+      dispatch(signin({ formData, navigate }))
+    }
   }
 
   //change formdata on input field change

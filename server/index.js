@@ -7,6 +7,7 @@ import dotenv from "dotenv"
 
 //routes for when user visit the url
 import postRoutes from "./routes/posts.js"
+import userRoutes from "./routes/users.js"
 
 const app = express()
 dotenv.config()
@@ -18,6 +19,7 @@ app.use(cors())
 
 //every route inside of the postRoutes will start with '/posts'
 app.use("/posts", postRoutes)
+app.use("/user", userRoutes)
 
 //mongoDB Atlas
 const PORT = process.env.PORT || 5000
