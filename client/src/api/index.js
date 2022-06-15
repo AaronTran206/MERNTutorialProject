@@ -3,6 +3,16 @@ import axios from "axios"
 
 const API = axios.create({ baseURL: "http://localhost:5000" })
 
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`
+  }
+
+  return req
+})
+
 //axios helps fetch data from the URL
 export const fetchPost = () => API.get("/posts")
 
@@ -24,5 +34,6 @@ export const deletePost = (id) => {
   return API.delete(`/posts/${id}`)
 }
 
+//sign in and sign up features
 export const signIn = (formData) => API.post("/user/signin", formData)
 export const signUp = (formData) => API.post("/user/signup", formData)

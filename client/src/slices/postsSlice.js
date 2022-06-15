@@ -4,7 +4,7 @@ import * as api from "../api"
 //imported the api call to our backend server from ../api
 //then we created a async thunk function that makes a call to the api that we created with axios
 //we return the data to the component that requests that data
-export const fetchPost = createAsyncThunk("posts/fetchPost", async () => {
+export const fetchPost = createAsyncThunk("/posts/fetchPost", async () => {
   try {
     const { data } = await api.fetchPost()
 
@@ -15,14 +15,17 @@ export const fetchPost = createAsyncThunk("posts/fetchPost", async () => {
 })
 
 //
-export const createPost = createAsyncThunk("posts/createPost", async (post) => {
-  const { data } = await api.createPost(post)
-  try {
-    return data
-  } catch (error) {
-    console.log(error)
+export const createPost = createAsyncThunk(
+  "/posts/createPost",
+  async (post) => {
+    try {
+      const { data } = await api.createPost(post)
+      return data
+    } catch (error) {
+      console.log(error)
+    }
   }
-})
+)
 
 export const updatePost = createAsyncThunk(
   "posts/updatePost",
@@ -38,16 +41,16 @@ export const updatePost = createAsyncThunk(
   }
 )
 
-export const likePost = createAsyncThunk("posts/likePost", async (id) => {
-  const { data } = await api.likePost(id)
+export const likePost = createAsyncThunk("/posts/likePost", async (id) => {
   try {
+    const { data } = await api.likePost(id)
     return data
   } catch (error) {
     console.log(error)
   }
 })
 
-export const deletePost = createAsyncThunk("posts/deletePost", async (id) => {
+export const deletePost = createAsyncThunk("/posts/deletePost", async (id) => {
   try {
     await api.deletePost(id)
     return id
@@ -93,7 +96,7 @@ export const postsSlice = createSlice({
     [updatePost.fulfilled]: (state, action) => {
       state.status = "success"
       state.posts = state.posts.map((post) =>
-        post.id === action.payload._id ? action.payload : post
+        post._id === action.payload._id ? action.payload : post
       )
     },
     [updatePost.rejected]: (state, action) => {
@@ -101,16 +104,16 @@ export const postsSlice = createSlice({
     },
 
     //likePost
-    [updatePost.pending]: (state, action) => {
+    [likePost.pending]: (state, action) => {
       state.status = "loading"
     },
-    [updatePost.fulfilled]: (state, action) => {
+    [likePost.fulfilled]: (state, action) => {
       state.status = "success"
       state.posts = state.posts.map((post) =>
-        post.id === action.payload._id ? action.payload : post
+        post._id === action.payload._id ? action.payload : post
       )
     },
-    [updatePost.rejected]: (state, action) => {
+    [likePost.rejected]: (state, action) => {
       state.status = "failed"
     },
 

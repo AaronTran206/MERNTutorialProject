@@ -66,7 +66,7 @@ const Auth = () => {
     const decodedToken = await decodeToken(res.credential)
 
     //dispatch decoded results to redux global state
-    dispatch(setAuthSlice({ result: decodedToken }))
+    dispatch(setAuthSlice({ result: decodedToken, token: res.credential }))
 
     //return back to home after sign-in
     navigate("/")

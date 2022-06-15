@@ -3,9 +3,10 @@ import { Link } from "react-router-dom"
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core"
 import memories from "../../images/memories.png"
 import useStyles from "./styles.js"
-import { selectAuthData, setAuthLogoutSlice } from "../../slices/authSlice"
+import { setAuthLogoutSlice } from "../../slices/authSlice"
 import { useDispatch } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
+import { decodeToken } from "react-jwt"
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")))
@@ -16,6 +17,16 @@ const Navbar = () => {
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("profile")))
+
+    //get token from user token
+    const token = user?.token
+
+    //if token scheduled expiry time is less than current date, then logout
+    if (token) {
+      const decodedToken = decodeToken(token)
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout()
+    }
   }, [location])
 
   const logout = () => {

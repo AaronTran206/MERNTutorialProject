@@ -3,26 +3,24 @@ import { TextField, Button, Typography, Paper } from "@material-ui/core"
 import useStyles from "./styles.js"
 import FileBase from "react-file-base64"
 import { useDispatch, useSelector } from "react-redux"
-import { selectAllPosts } from "../../slices/postsSlice.js"
 import { createPost, updatePost } from "../../slices/postsSlice.js"
 
 //get current ID
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
     selectedFile: "",
   })
-  const classes = useStyles()
-  const dispatch = useDispatch()
-
   //if currentId exists, then find the post of the currentId and set it to post
   const post = useSelector((state) =>
     currentId ? state.posts.posts.find((post) => post._id === currentId) : null
   )
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const user = JSON.parse(localStorage.getItem("profile"))
 
   useEffect(() => {
     if (post) setPostData(post)
@@ -32,10 +30,23 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault()
 
     if (currentId) {
-      dispatch(updatePost({ id: currentId, post: postData }))
+      dispatch(
+        updatePost({
+          id: currentId,
+          post: {
+            ...postData,
+            name: `${user?.result?.given_name} ${user?.result?.family_name}`,
+          },
+        })
+      )
       clear()
     } else {
-      dispatch(createPost(postData))
+      dispatch(
+        createPost({
+          ...postData,
+          name: `${user?.result?.given_name} ${user?.result?.family_name}`,
+        })
+      )
       clear()
     }
   }
@@ -43,12 +54,21 @@ const Form = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setCurrentId(null)
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
       selectedFile: "",
     })
+  }
+
+  if (!user?.result?.given_name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please sign-in to create your own memories!
+        </Typography>
+      </Paper>
+    )
   }
 
   return (
@@ -60,16 +80,6 @@ const Form = ({ currentId, setCurrentId }) => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">Creating a Memory</Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={(e) => {
-            setPostData({ ...postData, creator: e.target.value })
-          }}
-        />
         <TextField
           name="title"
           variant="outlined"
