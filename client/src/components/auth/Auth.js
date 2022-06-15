@@ -64,6 +64,7 @@ const Auth = () => {
   const googleSuccess = async (res) => {
     //decode the response from Google authentication
     const decodedToken = await decodeToken(res.credential)
+    console.log(res.clientId === decodedToken.azp)
 
     //dispatch decoded results to redux global state
     dispatch(setAuthSlice({ result: decodedToken, token: res.credential }))
