@@ -24,9 +24,15 @@ export const getPost = createAsyncThunk("/posts/getPost", async (id) => {
   }
 })
 
-export const fetchPostsbySearch = createAsyncThunk("/posts/fetchPostsbySearch",async (searchQuery) => {
+export const fetchPostsbySearch = createAsyncThunk(
+  "/posts/fetchPostsbySearch",
+  async (searchQuery) => {
     try {
-      const { data: { data }} = await api.fetchPostsbySearch(searchQuery)
+      const {
+        data: { data },
+      } = await api.fetchPostsbySearch(searchQuery)
+
+      console.log(searchQuery)
 
       return data
     } catch (error) {
@@ -37,9 +43,12 @@ export const fetchPostsbySearch = createAsyncThunk("/posts/fetchPostsbySearch",a
 
 export const createPost = createAsyncThunk(
   "/posts/createPost",
-  async (post) => {
+  async (data) => {
+    const { post, navigate } = data
     try {
       const { data } = await api.createPost(post)
+
+      navigate(`/posts/${data._id}`)
       return data
     } catch (error) {
       console.error(error)

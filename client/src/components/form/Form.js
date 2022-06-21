@@ -4,6 +4,7 @@ import useStyles from "./styles.js"
 import FileBase from "react-file-base64"
 import { useDispatch, useSelector } from "react-redux"
 import { createPost, updatePost } from "../../slices/postsSlice.js"
+import { useNavigate } from "react-router-dom"
 
 //get current ID
 
@@ -20,6 +21,7 @@ const Form = ({ currentId, setCurrentId }) => {
   )
   const classes = useStyles()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem("profile"))
 
   useEffect(() => {
@@ -43,8 +45,11 @@ const Form = ({ currentId, setCurrentId }) => {
     } else {
       dispatch(
         createPost({
-          ...postData,
-          name: `${user?.result?.given_name} ${user?.result?.family_name}`,
+          post: {
+            ...postData,
+            name: `${user?.result?.given_name} ${user?.result?.family_name}`,
+          },
+          navigate,
         })
       )
       clear()
