@@ -4,9 +4,9 @@ import * as api from "../api"
 //imported the api call to our backend server from ../api
 //then we created a async thunk function that makes a call to the api that we created with axios
 //we return the data to the component that requests that data
-export const fetchPost = createAsyncThunk("/posts/fetchPost", async () => {
+export const fetchPost = createAsyncThunk("/posts/fetchPost", async (page) => {
   try {
-    const { data } = await api.fetchPost()
+    const { data } = await api.fetchPost(page)
 
     return data
   } catch (error) {
@@ -77,6 +77,8 @@ export const postsSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
+    currentPage: null,
+    numberOfPages: null,
   },
   extraReducers: {
     //fetchPost
@@ -85,7 +87,9 @@ export const postsSlice = createSlice({
     },
     [fetchPost.fulfilled]: (state, action) => {
       state.status = "success"
-      state.posts = action.payload
+      state.posts = action.payload.data
+      state.currentPage = action.payload.currentPage
+      state.numberOfPages = action.payload.numberOfPages
     },
     [fetchPost.rejected]: (state, action) => {
       state.status = "failed"

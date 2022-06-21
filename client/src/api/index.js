@@ -14,7 +14,7 @@ API.interceptors.request.use((req) => {
 })
 
 //axios helps fetch data from the URL
-export const fetchPost = () => API.get("/posts")
+export const fetchPost = (page) => API.get(`/posts?page=${page}`)
 
 //fetch posts by search term
 export const fetchPostsbySearch = (searchQuery) =>

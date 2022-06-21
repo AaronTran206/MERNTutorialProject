@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import Posts from "../posts/Posts.js"
 import Form from "../form/Form.js"
 import {
@@ -30,18 +30,15 @@ const Home = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+  const query = useQuery()
   //if no page in URL then the current page must be the first one
-  const query = useQuery("page") || 1
+  const page = query.get("page") || 1
   const searchQuery = query.get("searchQuery")
 
   //states
   const [currentId, setCurrentId] = useState(null)
   const [search, setSearch] = useState("")
   const [tags, setTags] = useState([])
-
-  useEffect(() => {
-    dispatch(fetchPost())
-  }, [dispatch, currentId])
 
   const handleKeyDown = (e) => {
     //key code for Enter is 13
@@ -122,7 +119,7 @@ const Home = () => {
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             <Paper elevation={6}>
-              <Paginate className={classes.pagination}></Paginate>
+              <Paginate page={page} className={classes.pagination} />
             </Paper>
           </Grid>
         </Grid>

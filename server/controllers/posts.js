@@ -3,11 +3,28 @@ import mongoose from "mongoose"
 import PostMessage from "../models/postMessage.js"
 
 export const fetchPost = async (req, res) => {
-  try {
-    //finding something in a model takes time and, is thus, asynchronous. Must convert this function to an async function and put await on the find method
-    const postMessages = await PostMessage.find()
+  const { page } = req.query
 
-    res.status(200).json(postMessages)
+  try {
+    const LIMIT = 8
+    //passing page number through req.query will make it a string. Convert back to number.
+    const startIndex = (Number(page) - 1) * LIMIT
+    const total = await PostMessage.countDocuments({})
+
+    //finding something in a model takes time and, is thus, asynchronous. Must convert this function to an async function and put await on the find method
+    //sort posts from newest to oldest
+    //limit the fetch to a certain number of posts
+    //skip to the index indicated
+    const posts = await PostMessage.find()
+      .sort({ _id: -1 })
+      .limit(LIMIT)
+      .skip(startIndex)
+
+    res.status(200).json({
+      data: posts,
+      currentPage: Number(page),
+      numberOfPages: Math.ceil(total / LIMIT),
+    })
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
