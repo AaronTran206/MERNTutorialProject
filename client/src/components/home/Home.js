@@ -13,7 +13,7 @@ import {
 import { useDispatch } from "react-redux"
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom"
 import ChipInput from "material-ui-chip-input"
-import { fetchPost, fetchPostsbySearch } from "../../slices/postsSlice"
+import { fetchPostsbySearch } from "../../slices/postsSlice"
 import useStyles from "./styles.js"
 import Paginate from "../pagination/Pagination.js"
 
@@ -56,15 +56,13 @@ const Home = () => {
     setTags(tags.filter((tag) => tag !== tagToDelete))
 
   const searchPosts = () => {
-    if (search.trim() || tags.length !== 0) {
+    if (search.trim() || tags.length) {
       //dispatch -> fetch search posts
       //cannot send an array to URL parameters. Must be a string. Use .join() method.
       dispatch(fetchPostsbySearch({ search, tags: tags.join("+") }))
 
       navigate(
-        `/posts/search?searchQuery=${search || "none"}&tags=${
-          tags.join("+") || "none"
-        }`
+        `/posts/search?searchQuery=${search || "none"}&tags=${tags.join("+")}`
       )
     } else {
       //if no search term then go back to main page

@@ -24,8 +24,6 @@ const Post = ({ post, setCurrentId }) => {
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem("profile"))
 
-  useEffect(() => {})
-
   const openPost = () => {
     navigate(`/posts/${post._id}`)
   }
@@ -78,16 +76,15 @@ const Post = ({ post, setCurrentId }) => {
         <div className={classes.overlay2}>
           {(user?.result?.sub === post?.creator ||
             user?.result?._id === post?.creator) && (
-            <Button
+            <MoreHorizIcon
+              fontSize="medium"
               style={{ color: "white" }}
               size="small"
               onClick={(e) => {
                 e.stopPropagation()
                 setCurrentId(post._id)
               }}
-            >
-              <MoreHorizIcon fontSize="medium" />
-            </Button>
+            />
           )}
         </div>
         <div className={classes.details}>

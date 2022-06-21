@@ -3,7 +3,7 @@ import { Container } from "@material-ui/core"
 import Navbar from "../components/navbar/Navbar.js"
 import Home from "../components/home/Home.js"
 import Auth from "../components/auth/Auth.js"
-import PostDetails from "../components/postDetails/postDetails.js"
+import PostDetails from "../components/postDetails/PostDetails.js"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 

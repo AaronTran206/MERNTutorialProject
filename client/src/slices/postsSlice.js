@@ -24,13 +24,9 @@ export const getPost = createAsyncThunk("/posts/getPost", async (id) => {
   }
 })
 
-export const fetchPostsbySearch = createAsyncThunk(
-  "/posts/fetchPostsbySearch",
-  async (searchQuery) => {
+export const fetchPostsbySearch = createAsyncThunk("/posts/fetchPostsbySearch",async (searchQuery) => {
     try {
-      const {
-        data: { data },
-      } = await api.fetchPostsbySearch(searchQuery)
+      const { data: { data }} = await api.fetchPostsbySearch(searchQuery)
 
       return data
     } catch (error) {

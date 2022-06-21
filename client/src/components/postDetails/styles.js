@@ -4,8 +4,8 @@ export default makeStyles((theme) => ({
   media: {
     borderRadius: "20px",
     objectFit: "cover",
-    width: "100%",
-    maxHeight: "600px",
+    maxWidth: "100%",
+    maxheight: "100%",
   },
   card: {
     display: "flex",
@@ -28,7 +28,7 @@ export default makeStyles((theme) => ({
   },
   recommendedPosts: {
     display: "flex",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       flexDirection: "column",
     },
   },

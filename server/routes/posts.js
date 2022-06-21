@@ -12,14 +12,16 @@ import auth from "../middleware/auth.js"
 
 const router = express.Router()
 
-//get retrieves data from a database
-router.get("/", fetchPost)
+//order matters for express router. Requests are handled in a 'first come first serve' basis
+
+//get data based on search parameters
+router.get("/search", fetchPostsbySearch)
 
 //get single post
 router.get("/:id", getPost)
 
-//get data based on search parameters
-router.get("/search", fetchPostsbySearch)
+//get retrieves data from a database
+router.get("/", fetchPost)
 
 //post adds data to a database
 router.post("/", auth, createPost)

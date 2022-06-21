@@ -8,7 +8,7 @@ const Posts = ({ setCurrentId }) => {
   const classes = useStyles()
   const { posts, status } = useSelector((state) => state.posts)
 
-  if (!posts.length && status === "success") return "No posts :("
+  if (!posts?.length && status === "success") return "No posts :("
 
   return status === "loading" ? (
     <div className={classes.loadingIcon}>

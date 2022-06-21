@@ -19,11 +19,11 @@ export const fetchPost = (page) => API.get(`/posts?page=${page}`)
 export const getPost = (id) => API.get(`/posts/${id}`)
 
 //fetch posts by search term
+//query parameters start with question mark then variable name and is equal to something
+//we are sending searchTerm and search tags within the searchQuery object
 export const fetchPostsbySearch = (searchQuery) =>
-  //query parameters start with question mark then variable name and is equal to something
-  //we are sending searchTerm and search tags within the searchQuery object
   API.get(
-    `/posts/search/?searchQuery=${searchQuery.search || "none"}&tags=${
+    `/posts/search?searchQuery=${searchQuery.search || "none"}&tags=${
       searchQuery.tags
     }`
   )
