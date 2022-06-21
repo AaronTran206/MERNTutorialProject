@@ -7,7 +7,7 @@ import {
   Typography,
   Container,
 } from "@material-ui/core"
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
+import { GoogleLogin } from "@react-oauth/google"
 import { decodeToken } from "react-jwt"
 import { useDispatch } from "react-redux"
 import { setAuthSlice, signup, signin } from "../../slices/authSlice.js"
