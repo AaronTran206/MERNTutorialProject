@@ -81,7 +81,7 @@ const PostDetails = () => {
           />
         </div>
       </div>
-      {recommendedPosts?.length && (
+      {recommendedPosts?.length > 0 && (
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">
             You might also like:
