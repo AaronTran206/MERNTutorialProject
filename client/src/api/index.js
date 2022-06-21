@@ -16,6 +16,16 @@ API.interceptors.request.use((req) => {
 //axios helps fetch data from the URL
 export const fetchPost = () => API.get("/posts")
 
+//fetch posts by search term
+export const fetchPostsbySearch = (searchQuery) =>
+  //query parameters start with question mark then variable name and is equal to something
+  //we are sending searchTerm and search tags within the searchQuery object
+  API.get(
+    `/posts/search/?searchQuery=${searchQuery.search || "none"}&tags=${
+      searchQuery.tags
+    }`
+  )
+
 //axios posts data to the db stored in the url
 //the backend database is also connecting data to the url
 export const createPost = (newPost) => API.post("/posts", newPost)

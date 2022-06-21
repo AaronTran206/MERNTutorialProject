@@ -13,9 +13,26 @@ export const fetchPost = async (req, res) => {
   }
 }
 
+//params and query are different
+//QUERY -> /posts?page=1 -> page = 1
+//PARAMS -> /posts/:id -> id = 123
+//both are ok. Query for filtering data. Params to get specific data.
+export const fetchPostsbySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query
+  try {
+    const title = new RegExp(searchQuery, "i")
+
+    const posts = await PostMessage.find({
+      $or: [{ title }, { tags: { $in: tags.split("+") } }],
+    })
+    res.json({ data: posts })
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}
+
 export const createPost = async (req, res) => {
   const post = req.body
-  console.log(post)
 
   const newPost = new PostMessage({
     ...post,

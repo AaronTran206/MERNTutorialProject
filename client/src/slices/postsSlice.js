@@ -10,11 +10,25 @@ export const fetchPost = createAsyncThunk("/posts/fetchPost", async () => {
 
     return data
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 })
 
-//
+export const fetchPostsbySearch = createAsyncThunk(
+  "/posts/fetchPostsbySearch",
+  async (searchQuery) => {
+    try {
+      const {
+        data: { data },
+      } = await api.fetchPostsbySearch(searchQuery)
+
+      return data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+)
+
 export const createPost = createAsyncThunk(
   "/posts/createPost",
   async (post) => {
@@ -22,7 +36,7 @@ export const createPost = createAsyncThunk(
       const { data } = await api.createPost(post)
       return data
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 )
@@ -36,7 +50,7 @@ export const updatePost = createAsyncThunk(
 
       return data
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 )
@@ -46,7 +60,7 @@ export const likePost = createAsyncThunk("/posts/likePost", async (id) => {
     const { data } = await api.likePost(id)
     return data
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 })
 
@@ -55,7 +69,7 @@ export const deletePost = createAsyncThunk("/posts/deletePost", async (id) => {
     await api.deletePost(id)
     return id
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 })
 
@@ -65,18 +79,6 @@ export const postsSlice = createSlice({
     posts: [],
   },
   extraReducers: {
-    //createPost
-    [createPost.pending]: (state, action) => {
-      state.status = "loading"
-    },
-    [createPost.fulfilled]: (state, action) => {
-      state.status = "success"
-      state.posts = [...state.posts, action.payload]
-    },
-    [createPost.rejected]: (state, action) => {
-      state.status = "failed"
-    },
-
     //fetchPost
     [fetchPost.pending]: (state, action) => {
       state.status = "loading"
@@ -86,6 +88,30 @@ export const postsSlice = createSlice({
       state.posts = action.payload
     },
     [fetchPost.rejected]: (state, action) => {
+      state.status = "failed"
+    },
+
+    //fetchPostsbySearch
+    [fetchPostsbySearch.pending]: (state, action) => {
+      state.status = "loading"
+    },
+    [fetchPostsbySearch.fulfilled]: (state, action) => {
+      state.status = "success"
+      state.posts = action.payload
+    },
+    [fetchPostsbySearch.rejected]: (state, action) => {
+      state.status = "failed"
+    },
+
+    //createPost
+    [createPost.pending]: (state, action) => {
+      state.status = "loading"
+    },
+    [createPost.fulfilled]: (state, action) => {
+      state.status = "success"
+      state.posts = [...state.posts, action.payload]
+    },
+    [createPost.rejected]: (state, action) => {
       state.status = "failed"
     },
 
