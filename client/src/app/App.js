@@ -19,7 +19,7 @@ const App = () => {
             <Route path="/" element={<Navigate replace={true} to="/posts" />} />
             <Route path="/posts" exact element={<Home />} />
             <Route path="/posts/search" exact element={<Home />} />
-            <Route path="/posts/:id" element={<PostDetails />} />
+            <Route path="/posts/:id" exact element={<PostDetails />} />
             <Route
               path="/auth"
               element={!user ? <Auth /> : <Navigate to="/posts" />}

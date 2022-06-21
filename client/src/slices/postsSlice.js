@@ -14,6 +14,16 @@ export const fetchPost = createAsyncThunk("/posts/fetchPost", async (page) => {
   }
 })
 
+export const getPost = createAsyncThunk("/posts/getPost", async (id) => {
+  try {
+    const { data } = await api.getPost(id)
+
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 export const fetchPostsbySearch = createAsyncThunk(
   "/posts/fetchPostsbySearch",
   async (searchQuery) => {
@@ -77,6 +87,7 @@ export const postsSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
+    post: null,
     currentPage: 1,
     numberOfPages: 1,
     status: null,
@@ -93,6 +104,18 @@ export const postsSlice = createSlice({
       state.numberOfPages = action.payload.numberOfPages
     },
     [fetchPost.rejected]: (state, action) => {
+      state.status = "failed"
+    },
+
+    //getPost
+    [getPost.pending]: (state, action) => {
+      state.status = "loading"
+    },
+    [getPost.fulfilled]: (state, action) => {
+      state.status = "success"
+      state.post = action.payload
+    },
+    [getPost.rejected]: (state, action) => {
       state.status = "failed"
     },
 

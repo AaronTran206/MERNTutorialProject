@@ -1,6 +1,7 @@
 import express from "express"
 import {
   fetchPost,
+  getPost,
   fetchPostsbySearch,
   createPost,
   updatePost,
@@ -13,6 +14,9 @@ const router = express.Router()
 
 //get retrieves data from a database
 router.get("/", fetchPost)
+
+//get single post
+router.get("/:id", getPost)
 
 //get data based on search parameters
 router.get("/search", fetchPostsbySearch)

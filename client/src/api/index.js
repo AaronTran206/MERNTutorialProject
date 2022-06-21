@@ -16,6 +16,8 @@ API.interceptors.request.use((req) => {
 //axios helps fetch data from the URL
 export const fetchPost = (page) => API.get(`/posts?page=${page}`)
 
+export const getPost = (id) => API.get(`/posts/${id}`)
+
 //fetch posts by search term
 export const fetchPostsbySearch = (searchQuery) =>
   //query parameters start with question mark then variable name and is equal to something
