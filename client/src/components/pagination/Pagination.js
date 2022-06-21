@@ -9,7 +9,7 @@ import useStyles from "./styles"
 const Paginate = ({ page }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { numberOfPages, currentPage } = useSelector((state) => state.posts)
+  const { numberOfPages } = useSelector((state) => state.posts)
 
   useEffect(() => {
     dispatch(fetchPost(page))

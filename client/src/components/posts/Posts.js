@@ -2,15 +2,18 @@ import React from "react"
 import Post from "./post/Post.js"
 import useStyles from "./styles.js"
 import { useSelector } from "react-redux"
-import { selectAllPosts } from "../../slices/postsSlice.js"
 import { Grid, CircularProgress } from "@material-ui/core"
 
 const Posts = ({ setCurrentId }) => {
   const classes = useStyles()
-  const posts = useSelector(selectAllPosts)
+  const { posts, status } = useSelector((state) => state.posts)
 
-  return !posts.length ? (
-    <CircularProgress />
+  if (!posts.length && status === "success") return "No posts :("
+
+  return status === "loading" ? (
+    <div className={classes.loadingIcon}>
+      <CircularProgress size="8rem" />
+    </div>
   ) : (
     <Grid
       className={classes.container}

@@ -11,4 +11,10 @@ export default makeStyles((theme) => ({
   actionDiv: {
     textAlign: "center",
   },
+  loadingIcon: {
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    margin: "5rem 0rem",
+  },
 }))

@@ -77,8 +77,9 @@ export const postsSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
-    currentPage: null,
-    numberOfPages: null,
+    currentPage: 1,
+    numberOfPages: 1,
+    status: null,
   },
   extraReducers: {
     //fetchPost
