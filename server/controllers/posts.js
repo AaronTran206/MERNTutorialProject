@@ -140,8 +140,6 @@ export const commentPost = async (req, res) => {
   const { id } = req.params
   const { finalComment } = req.body
 
-  console.log(finalComment)
-
   const post = await PostMessage.findById(id)
 
   //this updates our post

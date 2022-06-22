@@ -17,14 +17,14 @@ const PostDetails = () => {
 
   useEffect(() => {
     dispatch(getPost(id))
-  }, [id])
+  }, [id, dispatch])
 
   useEffect(() => {
     if (post)
       dispatch(
         fetchPostsbySearch({ search: "none", tags: post?.tags.join("+") })
       )
-  }, [post])
+  }, [post, dispatch])
 
   //current post cannot be in its own recommended post
   const recommendedPosts = posts?.filter(({ _id }) => _id !== post?._id)
@@ -110,6 +110,7 @@ const PostDetails = () => {
                   </Typography>
                   <img
                     src={selectedFile}
+                    alt={title}
                     styles={{ borderRadius: "5px" }}
                     width="200px"
                   />

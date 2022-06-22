@@ -71,6 +71,7 @@ export const updatePost = createAsyncThunk(
 export const likePost = createAsyncThunk("/posts/likePost", async (id) => {
   try {
     const { data } = await api.likePost(id)
+
     return data
   } catch (error) {
     console.error(error)
@@ -177,7 +178,7 @@ export const postsSlice = createSlice({
 
     //likePost
     [likePost.pending]: (state, action) => {
-      state.status = "loading"
+      state.status = "success"
     },
     [likePost.fulfilled]: (state, action) => {
       state.status = "success"
@@ -191,7 +192,7 @@ export const postsSlice = createSlice({
 
     //commentPost
     [commentPost.pending]: (state, action) => {
-      state.status = "loading"
+      state.status = "success"
     },
     [commentPost.fulfilled]: (state, action) => {
       state.status = "success"
@@ -205,7 +206,7 @@ export const postsSlice = createSlice({
 
     //deletePost
     [deletePost.pending]: (state, action) => {
-      state.status = "loading"
+      state.status = "success"
     },
     [deletePost.fulfilled]: (state, action) => {
       state.status = "success"

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useState } from "react"
 import useStyles from "./styles.js"
 import {
   Card,
@@ -23,28 +23,42 @@ const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem("profile"))
+  const [likes, setLikes] = useState(post?.likes)
+
+  //use variables to make code more readable because using these code snippets a lot
+  const hasLikedPost = likes.find(
+    (like) => like === (user?.result?.sub || user?.result?._id)
+  )
+  const userId = user?.result?.sub || user?.result?._id
+
+  const handleLike = async () => {
+    dispatch(likePost(post?._id))
+
+    if (hasLikedPost) {
+      setLikes(likes.filter((id) => id !== userId))
+    } else {
+      setLikes([...likes, userId])
+    }
+  }
 
   const openPost = () => {
     navigate(`/posts/${post._id}`)
   }
 
   const Likes = () => {
-    if (post?.likes.length > 0) {
-      return post?.likes.find(
-        (like) => like === (user?.result?.sub || user?.result?._id)
-      ) ? (
+    if (likes.length > 0) {
+      return likes.find((like) => like === userId) ? (
         <>
           <ThumbUpAltIcon fontSize="small" />
           &nbsp;
-          {post?.likes.length > 2
-            ? `You and ${post.likes.length - 1} others`
-            : `${post?.likes.length} like${post?.likes.length > 1 ? "s" : ""}`}
+          {likes.length > 2
+            ? `You and ${likes.length - 1} others`
+            : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
         </>
       ) : (
         <>
           <ThumbUpAltOutlined fontSize="small" />
-          &nbsp;{post?.likes.length}{" "}
-          {post?.likes.length === 1 ? "Like" : "Likes"}
+          &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
         </>
       )
     }
@@ -75,8 +89,7 @@ const Post = ({ post, setCurrentId }) => {
           </Typography>
         </div>
         <div className={classes.overlay2}>
-          {(user?.result?.sub === post?.creator ||
-            user?.result?._id === post?.creator) && (
+          {userId === post?.creator && (
             <MoreHorizIcon
               fontSize="medium"
               style={{ color: "white" }}
@@ -106,13 +119,12 @@ const Post = ({ post, setCurrentId }) => {
         <Button
           size="small"
           color="primary"
-          onClick={() => dispatch(likePost(post?._id))}
+          onClick={handleLike}
           disabled={!user?.result}
         >
           <Likes />
         </Button>
-        {(user?.result?.sub === post?.creator ||
-          user?.result?._id === post?.creator) && (
+        {userId === post?.creator && (
           <Button
             size="small"
             color="secondary"
