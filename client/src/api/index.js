@@ -41,6 +41,9 @@ export const likePost = (id) => {
   return API.patch(`/posts/${id}/likePost`)
 }
 
+export const commentPost = (finalComment, id) =>
+  API.post(`/posts/${id}/commentPost`, { finalComment })
+
 //delete the post that matches the id
 export const deletePost = (id) => {
   return API.delete(`/posts/${id}`)

@@ -32,8 +32,6 @@ export const fetchPostsbySearch = createAsyncThunk(
         data: { data },
       } = await api.fetchPostsbySearch(searchQuery)
 
-      console.log(searchQuery)
-
       return data
     } catch (error) {
       console.error(error)
@@ -78,6 +76,21 @@ export const likePost = createAsyncThunk("/posts/likePost", async (id) => {
     console.error(error)
   }
 })
+
+export const commentPost = createAsyncThunk(
+  "/posts/commentPost",
+  async (data) => {
+    const { finalComment, id } = data
+
+    try {
+      const { data } = await api.commentPost(finalComment, id)
+
+      return data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+)
 
 export const deletePost = createAsyncThunk("/posts/deletePost", async (id) => {
   try {
@@ -173,6 +186,20 @@ export const postsSlice = createSlice({
       )
     },
     [likePost.rejected]: (state, action) => {
+      state.status = "failed"
+    },
+
+    //commentPost
+    [commentPost.pending]: (state, action) => {
+      state.status = "loading"
+    },
+    [commentPost.fulfilled]: (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      )
+    },
+    [commentPost.rejected]: (state, action) => {
       state.status = "failed"
     },
 

@@ -7,6 +7,7 @@ import {
   updatePost,
   deletePost,
   likePost,
+  commentPost,
 } from "../controllers/posts.js"
 import auth from "../middleware/auth.js"
 
@@ -31,6 +32,9 @@ router.patch("/:id", auth, updatePost)
 
 //patch to update likes
 router.patch("/:id/likePost", auth, likePost)
+
+//patch to update likes
+router.post("/:id/commentPost", auth, commentPost)
 
 //delete document
 router.delete("/:id", auth, deletePost)
