@@ -22,6 +22,10 @@ app.use("/posts", postRoutes)
 //every route inside of userRoutes will start with /user
 app.use("/user", userRoutes)
 
+app.get("/", (req, res) => {
+  res.send("App is running")
+})
+
 //mongoDB Atlas
 const PORT = process.env.PORT || 5000
 
